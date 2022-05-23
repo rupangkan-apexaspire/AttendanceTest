@@ -27,6 +27,7 @@ android {
         }
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -52,4 +53,9 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-alpha02"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
+
+    // CalenderView
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
+    implementation 'com.github.kizitonwose:CalendarView:1.0.4'
+
 }

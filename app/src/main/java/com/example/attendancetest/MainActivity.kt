@@ -1,5 +1,6 @@
 package com.example.attendancetest
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var username = ""
     private var password = ""
+    private lateinit var loginResponse: LoginResponseBody
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,10 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     if(response.isSuccessful){
                         Toast.makeText(applicationContext, "Successfully Logged In", Toast.LENGTH_SHORT).show()
+                        loginResponse = response.body()!!
+                        var intent = Intent(this@MainActivity, CalenderActivity::class.java)
+                        intent.putExtra("token", loginResponse.access)
+                        startActivity(intent)
                     } else {
                         Toast.makeText(applicationContext, "Enter Proper Details", Toast.LENGTH_SHORT).show()
                     }

@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/asus/Documents/AttendanceTest/app/src/main/res/drawable-v24/example_1_selected_bg.xml" value="0.209" />
+        <entry key="..\:/Users/asus/Documents/AttendanceTest/app/src/main/res/layout/activity_calender.xml" value="0.2015625" />
         <entry key="..\:/Users/asus/Documents/AttendanceTest/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/asus/Documents/AttendanceTest/app/src/main/res/layout/calendar_day_legend.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/asus/Documents/AttendanceTest/app/src/main/res/layout/example_1_calendar_day.xml" value="0.38697916666666665" />
       </map>
     </option>
   </component>
