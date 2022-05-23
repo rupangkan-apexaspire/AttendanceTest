@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.core.view.children
 import com.example.attendancetest.databinding.ActivityCalenderBinding
 import com.example.attendancetest.databinding.Example1CalendarDayBinding
+import com.example.attendancetest.session.LoginPref
 import com.example.attendancetest.utils.daysOfWeekFromLocale
 import com.example.attendancetest.utils.setTextColorRes
 import com.kizitonwose.calendarview.model.CalendarDay
@@ -27,6 +28,7 @@ class CalenderActivity : AppCompatActivity() {
     private val selectedDates = mutableSetOf<LocalDate>()
     private val today = LocalDate.now()
     private val monthTitleFormatter = DateTimeFormatter.ofPattern("MMMM")
+    private lateinit var session: LoginPref
     private val TAG = "ReposeCalenderActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +36,10 @@ class CalenderActivity : AppCompatActivity() {
         binding = ActivityCalenderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var token = intent.extras?.get("token")
+        session = LoginPref(this)
+        var userDetail = session.getUserDetails()
+        var token = userDetail["token"]
+//        var token = intent.extras?.get("token")
         Log.d(TAG, "onCreate: $token")
         val daysOfWeek = daysOfWeekFromLocale()
         binding.legendLayout.root.children.forEachIndexed { index, view ->
