@@ -18,9 +18,8 @@ interface RetrofitApi {
     @POST("login/")
     fun login(@Field("username") username: String, @Field("password") password: String ) : Call<LoginResponseBody>
 
-    @Multipart
     @GET("attendance/8176/{date}/day")
-    fun getAttendance(@Path(value = "date") date: String) : Call<AttendanceResponseBody>
+    fun getAttendance(@Path(value = "date") date: String, @Header("Authorization") auth: String) : Call<AttendanceResponseBody>
 
 
     companion object {
@@ -32,7 +31,7 @@ interface RetrofitApi {
             }
         }
 
-        val okHttpClient = OkHttpClient.Builder()
+        private val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(interceptor) // same for .addInterceptor(...)
             .build()
 
