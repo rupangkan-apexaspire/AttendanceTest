@@ -10,10 +10,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.toColorInt
 import androidx.core.view.children
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.attendancetest.adapter.StatusAdapter
 import com.example.attendancetest.api.RetrofitApi
 import com.example.attendancetest.databinding.ActivityCalenderBinding
 import com.example.attendancetest.models.Attendance
 import com.example.attendancetest.models.AttendanceResponseBody
+import com.example.attendancetest.models.Statu
 import com.example.attendancetest.session.LoginPref
 import com.example.attendancetest.utils.daysOfWeekFromLocale
 import com.example.attendancetest.utils.setTextColorRes
@@ -43,6 +48,7 @@ class CalenderActivity : AppCompatActivity() {
     private lateinit var attendanceResponse: AttendanceResponseBody
     private lateinit var attendance: Attendance
     private var hashMap : HashMap<String, String> = HashMap<String, String> ()
+    private lateinit var status: List<Statu>
     private val TAG = "ReposeCalenderActivity"
     
 
@@ -183,12 +189,9 @@ class CalenderActivity : AppCompatActivity() {
                         attendanceResponse = response.body()!!
 //                        attendance = response.body()!!.attendance
                         Log.d(TAG, "onResponse: ${attendanceResponse.attendance}")
-
-//                        var attendanceObj = response.body()!!.attendance.toString()
-//                        var jsonObj = JSONObject(attendanceObj)
-//                        var jsonArray = jsonObj.optJSONArray("attendance")
-
+                        status = response.body()!!.status
                         bindResponse()
+                        bindRecycler()
                     }
 
                     override fun onFailure(call: Call<AttendanceResponseBody>, t: Throwable) {
@@ -202,12 +205,16 @@ class CalenderActivity : AppCompatActivity() {
 
     }
 
+    private fun bindRecycler() {
+        binding.attendanceList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.attendanceList.adapter = StatusAdapter(status)
+    }
+
     private fun bindResponse() {
         binding.exOneCalendar.dayBinder = object : DayBinder<DayViewContainer> {
             override fun create(view: View) = DayViewContainer(view)
             override fun bind(container: DayViewContainer, day: CalendarDay) {
                 container.day = day
-
 //                Log.d(TAG, "bind: $day ${DayOwner.THIS_MONTH} $date")
                 val textView = container.textView
                 textView.text = day.date.dayOfMonth.toString()
@@ -218,39 +225,6 @@ class CalenderActivity : AppCompatActivity() {
                             var color = attendanceResponse.status[i].status_color.toColorInt()
                             textView.setBackgroundColor(color)
                         }
-                    }
-//                    attendanceResponse.attendance.forEach{
-//                        when {
-//                            it.key.equals(day.date.dayOfMonth) -> {
-//                                Log.d(TAG, "bind: ${it.key} ${day.date.dayOfMonth}")
-//                                textView.setTextColorRes(R.color.example_1_bg)
-//                                for(i in 0..attendanceResponse.status.size){
-//                                    if(attendanceResponse.status[i].id == it.value) {
-//                                        Log.d(TAG, "bindAttendance: ${attendanceResponse.status[i].id} ${it.key} ${it.value}")
-//                                        var color = attendanceResponse.status[i].status_color.toColorInt()
-//                                        textView.setBackgroundColor(color)
-//
-//                                    }
-//                                }
-//
-//                            }
-//                        }
-//                    }
-//                    when {
-//                        selectedDates.contains(day.date) -> {
-//                            textView.setTextColorRes(R.color.example_1_bg)
-//                            textView.setBackgroundResource(R.drawable.example_1_selected_bg)
-//                        }
-//                        today == day.date -> {
-//                            textView.setTextColorRes(R.color.example_1_white)
-//                            textView.setBackgroundResource(R.drawable.example_1_today_bg)
-//                        }
-//                        else -> {
-//                            textView.setTextColorRes(R.color.example_1_white)
-//                            textView.background = null
-//                        }
-//                    }
-                    when {
                     }
                 } else {
                     textView.setTextColorRes(R.color.example_1_white_light)
